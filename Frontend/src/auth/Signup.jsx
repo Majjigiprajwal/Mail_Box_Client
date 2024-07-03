@@ -50,21 +50,22 @@ const Signup = () => {
         });
         return
     }
-    else if(user.password.length < 8){
-      toast.error('Passwords should be alteast 8 characters', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-        return 
-    }
+    // else if(user.password.length < 8){
+    //   toast.error('Passwords should be alteast 8 characters', {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "dark",
+    //     });
+    //     return 
+    // }
     try{
-      let response = await axios.post('http://localhost:4000/register',user);
+      let response = await axios.post('http://localhost:4000/api/user/register',user);
+      
       if(response.status === 201){
         toast.success('Account created successfully', {
           position: "top-right",
@@ -80,8 +81,7 @@ const Signup = () => {
       }
     }
     catch(error){
-      if(error?.response?.status === 400){
-        toast.error('Email already exists,Please try with different Email address',{
+        toast.error(error?.response?.data?.message,{
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -92,19 +92,8 @@ const Signup = () => {
           theme: "dark",
           });
           return
-      }  
-      toast.error("Could not signup at the moment,please try after sometime",{
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-    }  
   }
+}
   return (
     <>
     <div className="bg-slate-900 flex min-h-full  flex-1 flex-col h-screen items-center justify-center  px-6 py-12 lg:px-8 border border-solid border-gray-400 p-4">

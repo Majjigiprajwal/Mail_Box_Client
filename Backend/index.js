@@ -20,16 +20,8 @@ app.use(cookieParser())
 
 
 
-
-const User = require('./Models/user');
-
-
-
-
-const userRoutes = require('./Routes/user');
-
-
-app.use(userRoutes)
+app.use('/api/user', require('./Routes/user'));
+app.use('/api/mail', require('./Routes/mail'));
 
 
 const connectDb = async ()=>{

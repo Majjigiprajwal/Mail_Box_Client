@@ -39,7 +39,8 @@ const Signin = () => {
         return
     }
     try{
-      let response = await axios.post('http://localhost:4000/login',user)
+      let response = await axios.post('http://localhost:4000/api/user/login',user)
+      console.log(response)
       toast.success("Login Succesful", {
         position: "top-right",
         autoClose: 5000,
@@ -52,10 +53,10 @@ const Signin = () => {
         });
       window.localStorage.setItem('token',JSON.stringify(response.data.token))  
     
-      navigate("/mail");
+      navigate("/compose-mail");
     }
     catch(error){
-     if(error?.response?.status === 401){
+   
         toast.error(error?.response?.data?.message, {
           position: "top-right",
           autoClose: 5000,
@@ -67,21 +68,7 @@ const Signin = () => {
           theme: "dark",
           });
           return
-      }
-      else{
-        toast.error(error?.response?.data?.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-          return
-      }
-    }
+        }
   }
   return (
     <>

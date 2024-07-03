@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* src/index.css or src/App.css */
+
+/* src/index.css or src/App.css */
+
+.active-link div {
+  background-color:white; /* White background for active link */
+  border-radius: 9999px; /* Fully rounded border */
+  color: black; /* Text color for active link */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Shadow for better design */
+
+}
+
+.inactive-link div {
+  background-color: transparent; /* No background for inactive links */
+  color: black; /* Text color for inactive links */
+}
+
+.inactive-link div:hover {
+  background-color: #f1f1f1; /* Hover effect for inactive links */
+}
+
 /* 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
