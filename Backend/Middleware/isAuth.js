@@ -18,12 +18,12 @@ module.exports = async function(req, res, next) {
     if (!user) {
       return res.status(401).json({ success: false, message: 'Token is not valid' });
     }
-
+    console.log(user)
     req.user = user;
     next();
 
   } 
-  
+
   catch (err) {
     res.status(401).json({ success: false, message: 'Token is not valid' });
   }

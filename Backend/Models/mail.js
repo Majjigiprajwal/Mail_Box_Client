@@ -29,14 +29,18 @@ const EmailSchema = new Schema({
     type: Boolean,
     default: false
   },
-  trash: {
-    type: Boolean,
-    default: false
-  },
   sentAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  senderTrash: {
+    type: Boolean,
+    default: false
+  },
+  recipientTrash: {
+    type: Boolean,
+    default: false
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Email', EmailSchema);

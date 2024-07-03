@@ -3,21 +3,31 @@ const router = express.Router();
 const mailController = require('../Controller/mail')
 const auth = require('../Middleware/isAuth')
 
-// router.get('/', mailController.getAllMails);
+
+router.get('/',auth, mailController.getInbox);
 
 
-// router.get('/:id', mailController.getMailById);
+router.get('/star',auth, mailController.getStarred);
+
+
+router.get('/bin',auth, mailController.getDeletedEmails);
+
+
+router.post('/:id/star',auth, mailController.markAsStarred);
+
+
+router.get('/sentMails',auth, mailController.getSentEmails);
 
 
 router.post('/sendMail',auth, mailController.sendMail);
 
 
-// router.delete('/:id', mailController.deleteMail);
+router.delete('/:id',auth, mailController.deleteMail);
 
 
-// router.patch('/:id/read', mailController.markAsRead);
+router.post('/:id/read',auth, mailController.markAsRead);
 
 
-// router.get('/search', mailController.searchMails);
+
 
 module.exports = router;
