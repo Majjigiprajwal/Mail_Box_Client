@@ -9,7 +9,14 @@ const Inbox = () => {
 
   useEffect(() => {
     fetchEmails();
+    fetchEmailEveryTwoMinutes()
   }, []);
+     
+      const fetchEmailEveryTwoMinutes = ()=>{
+        setInterval(()=>{
+          fetchEmails()
+        },20000)
+      }
 
   const fetchEmails = async () => {
     try {
