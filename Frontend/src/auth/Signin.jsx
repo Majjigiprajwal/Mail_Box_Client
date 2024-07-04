@@ -1,11 +1,13 @@
-import React from 'react';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import useApi from '../hooks/useFetch';
 
 
 const Signin = () => {
+
+  const { data, error,setMethod, setUrl, setRequestData, refetch } = useApi();
 
   const navigate = useNavigate();
 
@@ -21,6 +23,36 @@ const Signin = () => {
       })
       
   }
+
+  useEffect(() => {
+    if (data) {
+      toast.success('Login Successful', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      navigate("/compose-mail");
+      return
+    }
+    if (error) {
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return
+    }
+  }, [data, error, navigate])
 
 
   const handleSubmit = async (e)=>{
@@ -38,37 +70,11 @@ const Signin = () => {
         });
         return
     }
-    try{
-      let response = await axios.post('http://localhost:4000/api/user/login',user)
-      console.log(response)
-      toast.success("Login Succesful", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-      window.localStorage.setItem('token',JSON.stringify(response.data.token))  
-    
-      navigate("/compose-mail");
-    }
-    catch(error){
-   
-        toast.error(error?.response?.data?.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-          return
-        }
+
+    setMethod('POST');
+    setUrl('http://localhost:4000/api/user/login');
+    setRequestData(user);
+    refetch();  
   }
   return (
     <>

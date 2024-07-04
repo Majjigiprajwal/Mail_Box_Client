@@ -9,7 +9,7 @@ const EmailCard = ({ email, onStarClick, onDeleteClick,showStar = true, showDele
   let snippet = body.substring(0,100)+'...'
 
   return (
-    <div className={`bg-white shadow-lg rounded-lg p-4 mb-4 transition duration-300 ease-in-out ${read ? 'bg-gray-50' : 'bg-white'}`}
+    <div className={` shadow-lg rounded-lg p-4 mb-4 transition duration-300 ease-in-out ${read ? 'bg-gray-100' : 'bg-white'}`}
       onClick={()=>navigate(`/EmailDetails/${_id}`)}
     >
       <div className="flex justify-between items-center mb-2">

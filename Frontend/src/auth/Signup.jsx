@@ -1,30 +1,59 @@
-import React,{useState} from 'react';
+import {useState,useEffect} from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
+import useApi from '../hooks/useFetch';
 
 
 const Signup = () => {
    
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const [user,setUser] = useState({
-    name:"",
-    email:"",
-    password:"",
-    confirmPassword:"",
-  })
+  const { data, error,setMethod, setUrl, setRequestData, refetch } = useApi();
 
-  const handleChange = (e)=>{
-      setUser({
-        ...user,
-        [e.target.name]:e.target.value
-      })
-  }
+  useEffect(() => {
+    if (data) {
+      toast.success('Account created successfully', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      navigate("/signin");
+    }
+    if (error) {
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, [data, error, navigate]);
 
-  const handleSubmit = async (e)=>{
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(user.name.trim()==="" || user.email.trim()==="" || user.password.trim()==="" || user.confirmPassword.trim()===""){
+    if (user.name.trim() === "" || user.email.trim() === "" || user.password.trim() === "" || user.confirmPassword.trim() === "") {
       toast.error('Fill all the details correctly', {
         position: "top-right",
         autoClose: 5000,
@@ -34,10 +63,10 @@ const Signup = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        });
-        return
+      });
+      return;
     }
-    else if(user.password !== user.confirmPassword){
+    else if (user.password !== user.confirmPassword) {
       toast.error('Passwords do not match', {
         position: "top-right",
         autoClose: 5000,
@@ -47,53 +76,14 @@ const Signup = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        });
-        return
+      });
+      return;
     }
-    // else if(user.password.length < 8){
-    //   toast.error('Passwords should be alteast 8 characters', {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "dark",
-    //     });
-    //     return 
-    // }
-    try{
-      let response = await axios.post('http://localhost:4000/api/user/register',user);
-      
-      if(response.status === 201){
-        toast.success('Account created successfully', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-         navigate("/signin")
-      }
-    }
-    catch(error){
-        toast.error(error?.response?.data?.message,{
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-          return
-  }
-}
+    setMethod('POST');
+    setUrl('http://localhost:4000/api/user/register');
+    setRequestData(user);
+    refetch();
+  };
   return (
     <>
     <div className="bg-slate-900 flex min-h-full  flex-1 flex-col h-screen items-center justify-center  px-6 py-12 lg:px-8 border border-solid border-gray-400 p-4">
